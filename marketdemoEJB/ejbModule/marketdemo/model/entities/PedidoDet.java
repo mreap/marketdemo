@@ -16,7 +16,7 @@ public class PedidoDet implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PEDIDO_DET_NUMEROPEDIDODET_GENERATOR", sequenceName="SEQ_PEDIDO_DET")
+	@SequenceGenerator(name="PEDIDO_DET_NUMEROPEDIDODET_GENERATOR", sequenceName="SEQ_PEDIDO_DET",allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PEDIDO_DET_NUMEROPEDIDODET_GENERATOR")
 	@Column(name="numero_pedido_det", unique=true, nullable=false)
 	private Integer numeroPedidoDet;

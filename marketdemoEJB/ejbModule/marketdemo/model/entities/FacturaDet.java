@@ -16,7 +16,7 @@ public class FacturaDet implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="FACTURA_DET_NUMEROFACTURADET_GENERATOR", sequenceName="SEQ_FACTURA_DET")
+	@SequenceGenerator(name="FACTURA_DET_NUMEROFACTURADET_GENERATOR", sequenceName="SEQ_FACTURA_DET",allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="FACTURA_DET_NUMEROFACTURADET_GENERATOR")
 	@Column(name="numero_factura_det", unique=true, nullable=false)
 	private Integer numeroFacturaDet;

@@ -18,7 +18,7 @@ public class PedidoCab implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PEDIDO_CAB_NUMEROPEDIDO_GENERATOR", sequenceName="SEQ_PEDIDO_CAB")
+	@SequenceGenerator(name="PEDIDO_CAB_NUMEROPEDIDO_GENERATOR", sequenceName="SEQ_PEDIDO_CAB",allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PEDIDO_CAB_NUMEROPEDIDO_GENERATOR")
 	@Column(name="numero_pedido", unique=true, nullable=false)
 	private Integer numeroPedido;
@@ -41,7 +41,7 @@ public class PedidoCab implements Serializable {
 	private EstadoPedido estadoPedido;
 
 	//bi-directional many-to-one association to PedidoDet
-	@OneToMany(mappedBy="pedidoCab")
+	@OneToMany(mappedBy="pedidoCab",cascade = CascadeType.ALL)
 	private List<PedidoDet> pedidoDets;
 
 	public PedidoCab() {

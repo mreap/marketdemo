@@ -48,7 +48,7 @@ public class FacturaCab implements Serializable {
 	private Usuario usuario;
 
 	//bi-directional many-to-one association to FacturaDet
-	@OneToMany(mappedBy="facturaCab")
+	@OneToMany(mappedBy="facturaCab",cascade = CascadeType.ALL)
 	private List<FacturaDet> facturaDets;
 
 	public FacturaCab() {
