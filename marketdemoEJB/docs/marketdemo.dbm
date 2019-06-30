@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,120" last-zoom="0.6"
+	 default-schema="public" default-owner="postgres">
+<database name="marketdemo" encoding="UTF8" lc-collate="es_EC.UTF-8" lc-ctype="es_EC.UTF-8" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="cliente">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="360"/>
+	<column name="cedula_cliente" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="nombres" not-null="true">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="apellidos" not-null="true">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="direccion">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="clave">
+		<type name="character varying" length="20"/>
+	</column>
+	<constraint name="cliente_pk" type="pk-constr" table="public.cliente">
+		<columns names="cedula_cliente" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="estado_pedido">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[estados que puede tener un pedido de compra de un cliente]]></comment>
+	<position x="60" y="720"/>
+	<column name="id_estado_pedido" not-null="true">
+		<type name="character varying" length="2"/>
+	</column>
+	<column name="descripcion_estado" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<constraint name="pk_estados_pedido" type="pk-constr" table="public.estado_pedido">
+		<columns names="id_estado_pedido" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bitacora">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="660" y="40"/>
+	<column name="codigo_evento" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="fecha_evento" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="codigo_usuario" not-null="true">
+		<type name="character varying" length="20"/>
+	</column>
+	<column name="metodo" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Metodo que generó el evento]]></comment>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[informacion detalle del evento]]></comment>
+	</column>
+	<column name="direccion_ip">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[direccion IP del usuario]]></comment>
+	</column>
+	<constraint name="bitacora_pk" type="pk-constr" table="public.bitacora">
+		<columns names="codigo_evento" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="factura_cab">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="580" y="240"/>
+	<column name="numero_factura" not-null="true">
+		<type name="character varying" length="17"/>
+		<comment><![CDATA[Numero de factura en formato eee-ppp-nnnnnnnnn (establecimiento, punto de emision, numero secuencia)]]></comment>
+	</column>
+	<column name="codigo_usuario" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[codigo del usuario que crea la factura]]></comment>
+	</column>
+	<column name="cedula_cliente" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="fecha_emision" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="subtotal" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="base_cero" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="valor_iva" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="total" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<constraint name="facturas_cab_pk" type="pk-constr" table="public.factura_cab">
+		<columns names="numero_factura" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="factura_det">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1140" y="240"/>
+	<column name="numero_factura_det" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="numero_factura" not-null="true">
+		<type name="character varying" length="17"/>
+	</column>
+	<column name="codigo_producto" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="cantidad" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="precio_unitario_venta" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<constraint name="factura_det_pk" type="pk-constr" table="public.factura_det">
+		<columns names="numero_factura_det" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="parametro">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[tabla con valores de parametros generales del sistema]]></comment>
+	<position x="1140" y="80"/>
+	<column name="nombre_parametro" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="valor_parametro" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<constraint name="parametro_pk" type="pk-constr" table="public.parametro">
+		<columns names="nombre_parametro" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pedido_cab">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabla maestra de pedidos de compra de clientes.]]></comment>
+	<position x="580" y="540"/>
+	<column name="numero_pedido" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="fecha_pedido" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="cedula_cliente" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="id_estado_pedido" not-null="true">
+		<type name="character varying" length="2"/>
+	</column>
+	<column name="subtotal" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+		<comment><![CDATA[valor subtotal del pedido de compra sin impuestos.]]></comment>
+	</column>
+	<constraint name="pk_pedido_cab" type="pk-constr" table="public.pedido_cab">
+		<columns names="numero_pedido" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pedido_det">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1140" y="540"/>
+	<column name="numero_pedido_det" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="numero_pedido" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="codigo_producto" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="cantidad" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="precio_unitario_venta" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<constraint name="pedido_det_pk" type="pk-constr" table="public.pedido_det">
+		<columns names="numero_pedido_det" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="producto">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1680" y="480"/>
+	<column name="codigo_producto" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="precio_unitario" not-null="true">
+		<type name="numeric" length="12" precision="2"/>
+	</column>
+	<column name="existencia" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[cantidad en existencia]]></comment>
+	</column>
+	<column name="tiene_impuesto" not-null="true">
+		<type name="character varying" length="1"/>
+		<comment><![CDATA[si tiene impuesto o no (S/N)]]></comment>
+	</column>
+	<constraint name="producto_impuesto_chk" type="ck-constr" table="public.producto">
+			<expression><![CDATA[((tiene_impuesto)::text = ANY (ARRAY[('S'::character varying)::text, ('N'::character varying)::text]))]]></expression>
+	</constraint>
+	<constraint name="producto_pk" type="pk-constr" table="public.producto">
+		<columns names="codigo_producto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="seq_bitacora"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<sequence name="seq_pedido_cab"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<sequence name="seq_pedido_det"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="usuario">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[usuarios del sistema]]></comment>
+	<position x="80" y="80"/>
+	<column name="codigo_usuario" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[codigo unico del usuario]]></comment>
+	</column>
+	<column name="nombres_usuario" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[nombres completos del usuario]]></comment>
+	</column>
+	<column name="tipo_usuario" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[tipo de usuario]]></comment>
+	</column>
+	<column name="clave">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[contraseña del usuario]]></comment>
+	</column>
+	<constraint name="usuarios_pk" type="pk-constr" table="public.usuario">
+		<columns names="codigo_usuario" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="seq_factura_det"
+	 start="1" increment="1"
+	 min-value="0" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<constraint name="usuario_bitacora_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.usuario" table="public.bitacora">
+	<columns names="codigo_usuario" ref-type="src-columns"/>
+	<columns names="codigo_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="factcab_cliente_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cliente" table="public.factura_cab">
+	<columns names="cedula_cliente" ref-type="src-columns"/>
+	<columns names="cedula_cliente" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="usuario_facturacab_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.usuario" table="public.factura_cab">
+	<columns names="codigo_usuario" ref-type="src-columns"/>
+	<columns names="codigo_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="factdet_factcab_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.factura_cab" table="public.factura_det">
+	<columns names="numero_factura" ref-type="src-columns"/>
+	<columns names="numero_factura" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="factdet_producto_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.producto" table="public.factura_det">
+	<columns names="codigo_producto" ref-type="src-columns"/>
+	<columns names="codigo_producto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_pedidocab_cliente" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.cliente" table="public.pedido_cab">
+	<columns names="cedula_cliente" ref-type="src-columns"/>
+	<columns names="cedula_cliente" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_pedidocab_estado" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.estado_pedido" table="public.pedido_cab">
+	<columns names="id_estado_pedido" ref-type="src-columns"/>
+	<columns names="id_estado_pedido" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pedidodet_pedidocab_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.pedido_cab" table="public.pedido_det">
+	<columns names="numero_pedido" ref-type="src-columns"/>
+	<columns names="numero_pedido" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pedidodet_producto_fk" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.producto" table="public.pedido_det">
+	<columns names="codigo_producto" ref-type="src-columns"/>
+	<columns names="codigo_producto" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_factura_cab_cliente" type="relfk"
+	 custom-color="#aa50c1"
+	 src-table="public.factura_cab"
+	 dst-table="public.cliente" reference-fk="factcab_cliente_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_factura_det_factura_cab" type="relfk"
+	 custom-color="#3b01ce"
+	 src-table="public.factura_det"
+	 dst-table="public.factura_cab" reference-fk="factdet_factcab_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_factura_det_producto" type="relfk"
+	 custom-color="#d64194"
+	 src-table="public.factura_det"
+	 dst-table="public.producto" reference-fk="factdet_producto_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pedido_cab_cliente" type="relfk"
+	 custom-color="#9068a1"
+	 src-table="public.pedido_cab"
+	 dst-table="public.cliente" reference-fk="fk_pedidocab_cliente"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pedido_cab_estado_pedido" type="relfk"
+	 custom-color="#1f0511"
+	 src-table="public.pedido_cab"
+	 dst-table="public.estado_pedido" reference-fk="fk_pedidocab_estado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pedido_det_pedido_cab" type="relfk"
+	 custom-color="#48b704"
+	 src-table="public.pedido_det"
+	 dst-table="public.pedido_cab" reference-fk="pedidodet_pedidocab_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pedido_det_producto" type="relfk"
+	 custom-color="#621be9"
+	 src-table="public.pedido_det"
+	 dst-table="public.producto" reference-fk="pedidodet_producto_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bitacora_usuario" type="relfk"
+	 src-table="public.bitacora"
+	 dst-table="public.usuario" reference-fk="usuario_bitacora_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_factura_cab_usuario" type="relfk"
+	 src-table="public.factura_cab"
+	 dst-table="public.usuario" reference-fk="usuario_facturacab_fk"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
