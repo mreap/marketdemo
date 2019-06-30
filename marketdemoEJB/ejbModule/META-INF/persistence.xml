@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="marketdemoEJB">
+		<class>marketdemo.model.entities.Bitacora</class>
+		<class>marketdemo.model.entities.Cliente</class>
+		<class>marketdemo.model.entities.EstadoPedido</class>
+		<class>marketdemo.model.entities.FacturaCab</class>
+		<class>marketdemo.model.entities.FacturaDet</class>
+		<class>marketdemo.model.entities.Parametro</class>
+		<class>marketdemo.model.entities.PedidoCab</class>
+		<class>marketdemo.model.entities.PedidoDet</class>
+		<class>marketdemo.model.entities.Producto</class>
+		<class>marketdemo.model.entities.Usuario</class>
 	</persistence-unit>
 </persistence>
