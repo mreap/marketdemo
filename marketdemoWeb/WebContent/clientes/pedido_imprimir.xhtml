@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Solicitud de compra</title>
+</h:head>
+<body style="font-size: 70%">
+	<h:panelGrid id="panel1">
+		<h2>PEDIDO DE COMPRA</h2>
+		<p:panel header="Datos del cliente:" style="width:800px">
+			<h:panelGrid columns="2">
+				<h:outputText value="Cédula:" />
+				<h:outputText value="#{beanPedidos.cedula}" />
+				<h:outputText value="Nombres:" />
+				<h:outputText
+					value="#{beanPedidos.nombres} #{beanPedidos.apellidos}" />
+				<h:outputText value="Dirección para despacho:" />
+				<h:outputText value="#{beanPedidos.direccion}" />
+			</h:panelGrid>
+		</p:panel>
+		<p:panel header="Información del pedido:" style="width:800px">
+			<h:panelGrid columns="2">
+				<h:outputText value="Número:" />
+				<h:outputText value="#{beanPedidos.pedidoCabTmp.numeroPedido}" />
+				<h:outputText value="Fecha de pedido:" />
+				<h:outputText value="#{beanPedidos.pedidoCabTmp.fechaPedido}" />
+				<h:outputText value="Estado del pedido:" />
+				<h:outputText
+					value="#{beanPedidos.pedidoCabTmp.estadoPedido.descripcionEstado}" />
+			</h:panelGrid>
+		</p:panel>
+		<p:panel header="Detalle de productos:" style="width:800px">
+			<p:dataTable value="#{beanPedidos.pedidoCabTmp.pedidoDets}" var="det">
+				<p:column headerText="PRODUCTO">
+					<h:outputText value="#{det.producto.nombre}" />
+				</p:column>
+				<p:column headerText="DETALLE">
+					<h:outputText value="#{det.producto.descripcion}" />
+				</p:column>
+				<p:column headerText="CANTIDAD" style="width:50px;text-align:right">
+					<h:outputText value="#{det.cantidad}" />
+				</p:column>
+				<p:column headerText="PRECIO" style="width:60px;text-align:right">
+					<h:outputText value="#{det.producto.precioUnitario}" />
+					<f:facet name="footer">
+						<h:outputText value="#{beanPedidos.pedidoCabTmp.subtotal}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputText>
+					</f:facet>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:panelGrid>
+	<p:commandButton value="Print" type="button" icon="ui-icon-print"
+		style="display:block;margin-bottom: 20px">
+		<p:printer target=":panel1" />
+	</p:commandButton>
+	<h:form>
+		<p:commandButton value="Cerrar y continuar"
+			action="#{beanPedidos.actionCerrarPedido()}" />
+	</h:form>
+</body>
+</html>

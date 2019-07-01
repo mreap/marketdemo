@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Productos</title>
+</h:head>
+<body style="font-size:70%">
+	<h:form id="form1">
+		<h:commandLink action="index" value="Ir al inicio..." />
+	</h:form>
+	<p:panel header="Ingreso de nuevo producto">
+		<h:form>
+			<p:panelGrid columns="2" id="panelGrid1">
+				<h:outputText value="ID:" />
+				<p:inputText value="#{beanProductos.codigoProducto}" required="true"
+					requiredMessage="Debe ingresar un código." />
+				<h:outputText value="NOMBRE:" />
+				<p:inputText value="#{beanProductos.nombre}"></p:inputText>
+				<h:outputText value="DESCRIPCION:" />
+				<p:inputText value="#{beanProductos.descripcion}"></p:inputText>
+				<h:outputText value="PRECIO:" />
+				<p:spinner value="#{beanProductos.precioUnitario}" stepFactor="0.01" min="0"/>
+				<h:outputText value="EXISTENCIA:" />
+				<p:spinner value="#{beanProductos.existencia}" min="0" />
+				<h:outputText value="TIENE IMPUESTO:" />
+				<p:selectOneMenu value="#{beanProductos.tieneImpuesto}">
+					<f:selectItem itemLabel="SI" itemValue="S"/>
+					<f:selectItem itemLabel="NO" itemValue="N"/>
+				</p:selectOneMenu>
+				
+				<p:messages></p:messages>
+			</p:panelGrid>
+
+			<p:commandButton value="Insertar"
+				action="#{beanProductos.actionInsertarProducto()}"
+				update=":form2,panelGrid1"></p:commandButton>
+		</h:form>
+	</p:panel>
+	<h:form id="form2">
+	<p:messages></p:messages>
+	<p:dataTable border="1" value="#{beanProductos.listaProductos}" var="p"
+		paginator="true" rows="6" id="tabla1">
+		<p:column headerText="CODIGO">
+			<h:outputText value="#{p.codigoProducto}"></h:outputText>
+		</p:column>
+		<p:column headerText="NOMBRE">
+			<h:outputText value="#{p.nombre}"></h:outputText>
+		</p:column>
+		<p:column headerText="DESCRIPCION">
+			<h:outputText value="#{p.descripcion}"></h:outputText>
+		</p:column>
+		<p:column headerText="PRECIO">
+			<h:outputText value="#{p.precioUnitario}"></h:outputText>
+		</p:column>
+		<p:column headerText="ELIMINAR">
+			<p:commandButton icon="ui-icon-cancel"
+				action="#{beanProductos.actionEliminarProducto(p)}"
+				update=":form2"></p:commandButton>
+		</p:column>
+		<p:column headerText="ACTUALIZAR">
+			<p:commandButton icon="ui-icon-comment"
+				action="#{beanProductos.actionCargarProducto(p)}"
+				update=":form2"></p:commandButton>
+		</p:column>
+	</p:dataTable>
+	</h:form>
+</body>
+</html>

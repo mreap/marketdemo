@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Ingreso de usuarios</title>
+</h:head>
+<h:body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:panel header="MARKET DEMO - Autentificación de usuarios operadores">
+			<h:panelGrid>
+				Puede utilizar los siguientes usuarios de prueba:
+				<ul>
+					<li>Usuario supervisor: <b>luisa</b> clave:<b>supervisor</b>
+					</li>
+					<li>Usuario vendedor: <b>juan</b> clave:<b>vendedor</b>
+					</li>
+					<li>Usuario vendedor: <b>margarita</b> clave:<b>vendedor</b>
+					</li>
+				</ul>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<h:outputText value="Código de usuario:" />
+				<p:inputText value="#{beanLogin.codigoUsuario}" required="true"
+					size="20" maxlength="20"
+					requiredMessage="Debe ingresar su codigo de usuario." />
+				<h:outputText value="Clave:" />
+				<p:password value="#{beanLogin.clave}" required="true" size="20"
+					maxlength="10" requiredMessage="Debe ingresar su contraseña." />
+				<p:commandButton value="Ingresar" icon="fa fa-key"
+					action="#{beanLogin.accederSistema()}" update="mensajes" />
+				<p:messages id="mensajes" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Insert title here</title>
+</h:head>
+<body>
+	<p:panel header="Actualización de producto">
+		<h:form>
+			<p:panelGrid columns="2" id="panelGrid1">
+				<h:outputText value="ID:" />
+				<h:panelGroup>
+				  <h:outputText value="#{beanProductos.codigoProducto}" />
+				  <h:inputHidden value="#{beanProductos.codigoProducto}" />
+				</h:panelGroup>
+				<h:outputText value="NOMBRE:" />
+				<p:inputText value="#{beanProductos.nombre}"></p:inputText>
+				<h:outputText value="DESCRIPCION:" />
+				<p:inputText value="#{beanProductos.descripcion}"></p:inputText>
+				<h:outputText value="PRECIO:" />
+				<p:spinner value="#{beanProductos.precioUnitario}" stepFactor="0.01" min="0"/>
+				<h:outputText value="EXISTENCIA:" />
+				<p:spinner value="#{beanProductos.existencia}" min="0" />
+				<h:outputText value="TIENE IMPUESTO:" />
+				<p:selectOneMenu value="#{beanProductos.tieneImpuesto}">
+					<f:selectItem itemLabel="SI" itemValue="S"/>
+					<f:selectItem itemLabel="NO" itemValue="N"/>
+				</p:selectOneMenu>
+				
+				<p:messages></p:messages>
+			</p:panelGrid>
+
+			<p:commandButton value="Actualizar"
+				action="#{beanProductos.actionActualizarProducto()}"
+				update="panelGrid1"></p:commandButton>
+		</h:form>
+	</p:panel>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Comprobacion clientes</title>
+</h:head>
+<body>
+	<h:form>
+		<p:panel header="Comprobacion de usuarios" id="panel1">
+			<p:staticMessage severity="info" detail="Para poder comprar, por favor debe indicar sus credenciales."></p:staticMessage>
+			<h:panelGrid columns="3">
+				<h:outputText value="Ingrese su cedula" />
+				<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
+					maxlength="10" required="true"
+					requiredMessage="Debe ingresar la cedula." />
+				<p:message for="cedula" />
+				<p:commandButton action="#{beanPedidos.actionComprobarCedula()}"
+					value="Siguiente..." update="panel1" />
+				<p:messages />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body>
+</html>

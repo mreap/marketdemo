@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Confirmacion</title>
+</h:head>
+<body style="font-size: 70%">
+	<p:panel header="Datos del cliente:" style="width:800px">
+		<h:panelGrid columns="2">
+			<h:outputText value="Cédula:" />
+			<h:outputText value="#{beanPedidos.cedula}" />
+			<h:outputText value="Nombres:" />
+			<h:outputText value="#{beanPedidos.nombres} #{beanPedidos.apellidos}" />
+			<h:outputText value="Dirección para despacho:" />
+			<h:outputText value="#{beanPedidos.direccion}" />
+		</h:panelGrid>
+	</p:panel>
+	<br />
+	<h:form id="form1">
+		<p:panel header="Detalle de productos:" style="width:800px">
+			<p:dataTable value="#{beanPedidos.pedidoCabTmp.pedidoDets}" var="det">
+				<p:column headerText="PRODUCTO">
+					<h:outputText value="#{det.producto.nombre}" />
+				</p:column>
+				<p:column headerText="DETALLE">
+					<h:outputText value="#{det.producto.descripcion}" />
+				</p:column>
+				<p:column headerText="CANTIDAD" style="width:50px;text-align:right">
+					<h:outputText value="#{det.cantidad}" />
+				</p:column>
+				<p:column headerText="PRECIO" style="width:60px;text-align:right">
+					<h:outputText value="#{det.producto.precioUnitario}" />
+					<f:facet name="footer">
+						<h:outputText value="#{beanPedidos.pedidoCabTmp.subtotal}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						</h:outputText>
+					</f:facet>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+		<h:panelGrid style="text-align:center" columns="2">
+			<p:commandButton icon="ui-icon-circle-arrow-w" action="pedido"
+				value="Regresar al carrito de compras"></p:commandButton>
+			<p:commandButton icon="ui-icon-circle-arrow-e" action="#{beanPedidos.actionGuardarPedido()}"
+				value="Confirmar el pedido"></p:commandButton>
+		</h:panelGrid>
+	</h:form>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Registro clientes</title>
+</h:head>
+<body style="font-size: 70%">
+	<h:form>
+		<p:panel header="Registro de clientes" id="panel1">
+			<h:panelGrid columns="3">
+				<h:outputText value="Ingrese su cedula" />
+				<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
+					maxlength="10" required="true"
+					requiredMessage="Debe ingresar la cedula." />
+				<p:message for="cedula" />
+				<h:outputText value="Nombres" />
+				<p:inputText id="nombres" value="#{beanPedidos.nombres}"
+					required="true" requiredMessage="Debe ingresar sus nombres." />
+				<p:message for="nombres" />
+				<h:outputText value="Apellidos" />
+				<p:inputText id="apellidos" value="#{beanPedidos.apellidos}"
+					required="true" requiredMessage="Debe ingresar sus apellidos." />
+				<p:message for="apellidos" />
+				<h:outputText value="Direccion" />
+				<p:inputText value="#{beanPedidos.direccion}" />
+				<h:outputText value="" />
+				<h:outputText value="Clave" />
+				<p:password id="clave" value="#{beanPedidos.clave}" required="true"
+					requiredMessage="Debe ingresar su contraseña." />
+				<p:message for="clave" />
+			</h:panelGrid>
+			<p:commandButton value="Registrar"
+				action="#{beanPedidos.actionInsertarCliente()}" update="panel1" />
+			<p:messages />
+		</p:panel>
+	</h:form>
+</body>
+</html>
