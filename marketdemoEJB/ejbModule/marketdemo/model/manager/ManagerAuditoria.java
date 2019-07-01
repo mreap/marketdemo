@@ -37,6 +37,7 @@ public class ManagerAuditoria {
 	 */
 	public void crearEvento(String codigoUsuario,Class clase,String metodo,String descripcion) throws Exception{
 		Bitacora evento=new Bitacora();
+		//cambio para probar git
 		
 		if(codigoUsuario==null||codigoUsuario.length()==0)
 			throw new Exception("Error auditoria: debe indicar el codigo del usuario.");
