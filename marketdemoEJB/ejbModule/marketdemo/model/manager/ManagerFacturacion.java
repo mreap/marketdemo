@@ -15,6 +15,7 @@ import marketdemo.model.entities.FacturaDet;
 import marketdemo.model.entities.PedidoCab;
 import marketdemo.model.entities.PedidoDet;
 import marketdemo.model.entities.Producto;
+import marketdemo.model.entities.Usuario;
 
 /**
  * Clase que implementa las reglas de negocio relacionadas a la facturacion del sistema de marketdemo.
@@ -32,6 +33,8 @@ public class ManagerFacturacion {
 	private ManagerProductos managerProductos;
 	@EJB
 	private ManagerParametros managerParametros;
+	@EJB
+	private ManagerSeguridad managerSeguridad;
 	
 	
 	public ManagerFacturacion(){
@@ -54,7 +57,7 @@ public class ManagerFacturacion {
 	 * @throws Exception
 	 */
 	private int getContadorFacturas() throws Exception{
-		return managerParametros.getValorParametroInteger("contador_facturas");
+		return managerParametros.getValorParametroInteger("cont_facturas");
 	}
 	
 	/**
@@ -63,7 +66,7 @@ public class ManagerFacturacion {
 	 * @throws Exception
 	 */
 	private void actualizarContFacturas(int nuevoContadorFacturas) throws Exception{
-		managerParametros.actualizarParametro("contador_facturas", nuevoContadorFacturas);
+		managerParametros.actualizarParametro("cont_facturas", nuevoContadorFacturas);
 	}
 	
 	//MANEJO DE FACTURAS:
@@ -177,10 +180,11 @@ public class ManagerFacturacion {
 	
 	/**
 	 * Guarda en la base de datos una factura.
+	 * @param codigoUsuario Codigo del usuario que genera la factura.
 	 * @param facturaCabTmp factura temporal creada en memoria.
 	 * @throws Exception problemas ocurridos en la insercion.
 	 */
-	public void guardarFacturaTemporal(FacturaCab facturaCabTmp) throws Exception{
+	public void guardarFacturaTemporal(String codigoUsuario,FacturaCab facturaCabTmp) throws Exception{
 		
 		if(facturaCabTmp==null)
 			throw new Exception("Debe crear una factura primero.");
@@ -188,7 +192,11 @@ public class ManagerFacturacion {
 			throw new Exception("Debe ingresar los productos en la factura.");
 		if(facturaCabTmp.getCliente()==null)
 			throw new Exception("Debe registrar el cliente.");
-
+		
+		//asignacion del usuario que crea la factura
+		Usuario usuario=managerSeguridad.findUsuarioById(codigoUsuario);
+		facturaCabTmp.setUsuario(usuario);
+		
 		facturaCabTmp.setFechaEmision(new Date());
 		
 		//obtenemos el numero de la nueva factura:
@@ -218,13 +226,13 @@ public class ManagerFacturacion {
 	 * Permite generar una factura a partir de un pedido de compra
 	 * de un cliente. Este metodo reutiliza toda la logica de negocio
 	 * que previamente fue implementada en ManagerFacturacion.
+	 * @param codigoUsuario Codigo del usuario que despacha el pedido.
 	 * @param pedidoCab El pedido del cliente.
 	 * @throws Exception
 	 */
-	public void crearFacturaConPedido(PedidoCab pedidoCab) throws Exception{
+	public void crearFacturaConPedido(String codigoUsuario,PedidoCab pedidoCab) throws Exception{
 		if(pedidoCab==null)
 			throw new Exception("Debe crear un pedido primero.");
-
 		//Creamos una factura temporal:
 		FacturaCab facturaCabTmp=crearFacturaTmp();
 		//Asignamos la informacion de cliente:
@@ -234,7 +242,7 @@ public class ManagerFacturacion {
 			agregarDetalleFacturaTmp(facturaCabTmp, pd.getProducto().getCodigoProducto(), pd.getCantidad());
 		}
 		//Finalmente guardamos la nueva factura:
-		guardarFacturaTemporal(facturaCabTmp);
+		guardarFacturaTemporal(codigoUsuario,facturaCabTmp);
 	}
 	
 }

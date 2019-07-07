@@ -8,11 +8,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Pedido</title>
 </h:head>
-<body style="font-size: 70%">
+<body>
 	<h:form>
-	<p:panel style="text-align:right">
-		<p:commandButton value="Salir" icon="ui-icon-extlink" action="#{beanLogin.salirSistema()}" />
-	</p:panel>
+		<p:menubar>
+			
+			<f:facet name="options">
+				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}"
+					icon="fa fa-sign-out" />
+			</f:facet>
+		</p:menubar>
 	</h:form>
 	<p:panel header="Datos del cliente:">
 		<h:outputText
@@ -25,14 +29,13 @@
 			<f:facet name="header">
 				<h:outputText value="Seleccione los productos:" />
 			</f:facet>
-			<p:panel header="#{p.codigoProducto}">
+			<p:panel header="#{p.nombre}">
 				<h:panelGrid columns="1">
-					<h:outputText value="#{p.nombre}" />
 					<h:outputText value="$#{p.precioUnitario}" />
 					<h:outputText value="#{p.descripcion}" />
 					<p:commandButton
 						actionListener="#{beanPedidos.actionInsertarProducto(p)}"
-						update=":form2:carrito" icon="ui-icon-cart" />
+						update=":form2:carrito" icon="fa fa-shopping-cart" />
 				</h:panelGrid>
 			</p:panel>
 		</p:dataGrid>

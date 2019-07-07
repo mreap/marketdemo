@@ -6,35 +6,46 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Insert title here</title>
+	<title>Actualizar</title>
 </h:head>
 <body>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Productos" action="productos" icon="fa fa-laptop"></p:menuitem>
+			<f:facet name="options">
+				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}"
+					icon="fa fa-sign-out" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<br />
 	<p:panel header="Actualización de producto">
+		<p:messages>
+			<p:autoUpdate />
+		</p:messages>
 		<h:form>
 			<p:panelGrid columns="2" id="panelGrid1">
 				<h:outputText value="ID:" />
 				<h:panelGroup>
-				  <h:outputText value="#{beanProductos.codigoProducto}" />
-				  <h:inputHidden value="#{beanProductos.codigoProducto}" />
+					<h:outputText value="#{beanProductos.codigoProducto}" />
+					<h:inputHidden value="#{beanProductos.codigoProducto}" />
 				</h:panelGroup>
 				<h:outputText value="NOMBRE:" />
 				<p:inputText value="#{beanProductos.nombre}"></p:inputText>
 				<h:outputText value="DESCRIPCION:" />
 				<p:inputText value="#{beanProductos.descripcion}"></p:inputText>
 				<h:outputText value="PRECIO:" />
-				<p:spinner value="#{beanProductos.precioUnitario}" stepFactor="0.01" min="0"/>
+				<p:spinner value="#{beanProductos.precioUnitario}" stepFactor="0.01"
+					min="0" size="10" />
 				<h:outputText value="EXISTENCIA:" />
-				<p:spinner value="#{beanProductos.existencia}" min="0" />
+				<p:spinner value="#{beanProductos.existencia}" min="0" size="10" />
 				<h:outputText value="TIENE IMPUESTO:" />
 				<p:selectOneMenu value="#{beanProductos.tieneImpuesto}">
-					<f:selectItem itemLabel="SI" itemValue="S"/>
-					<f:selectItem itemLabel="NO" itemValue="N"/>
+					<f:selectItem itemLabel="SI" itemValue="S" />
+					<f:selectItem itemLabel="NO" itemValue="N" />
 				</p:selectOneMenu>
-				
-				<p:messages></p:messages>
 			</p:panelGrid>
-
-			<p:commandButton value="Actualizar"
+			<p:commandButton value="Actualizar" icon="fa fa-save"
 				action="#{beanProductos.actionActualizarProducto()}"
 				update="panelGrid1"></p:commandButton>
 		</h:form>

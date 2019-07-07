@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import marketdemo.model.entities.Cliente;
@@ -39,6 +40,10 @@ public class BeanFactura implements Serializable {
 	private Integer cantidadProducto;
 	private FacturaCab facturaCabTmp;
 	private boolean facturaCabTmpGuardada;
+	
+	//Inyeccion de beans manejados:
+	@Inject
+	private BeanLogin beanLogin;
 	
 	public BeanFactura() {
 		
@@ -114,7 +119,7 @@ public class BeanFactura implements Serializable {
 			return "";
 		}
 		try {
-			managerFacturacion.guardarFacturaTemporal(facturaCabTmp);
+			managerFacturacion.guardarFacturaTemporal(beanLogin.getCodigoUsuario(),facturaCabTmp);
 			facturaCabTmpGuardada=true;
 		} catch (Exception e) {
 			JSFUtil.crearMensajeERROR(e.getMessage());
@@ -200,6 +205,14 @@ public class BeanFactura implements Serializable {
 
 	public void setFacturaCabTmpGuardada(boolean facturaCabTmpGuardada) {
 		this.facturaCabTmpGuardada = facturaCabTmpGuardada;
+	}
+
+	public BeanLogin getBeanLogin() {
+		return beanLogin;
+	}
+
+	public void setBeanLogin(BeanLogin beanLogin) {
+		this.beanLogin = beanLogin;
 	}
 	
 }

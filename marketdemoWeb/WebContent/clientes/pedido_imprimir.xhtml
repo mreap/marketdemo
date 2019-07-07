@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Solicitud de compra</title>
 </h:head>
-<body style="font-size: 70%">
+<body>
 	<h:panelGrid id="panel1">
 		<h2>PEDIDO DE COMPRA</h2>
 		<p:panel header="Datos del cliente:" style="width:800px">
@@ -55,7 +55,7 @@
 			</p:dataTable>
 		</p:panel>
 	</h:panelGrid>
-	<p:commandButton value="Print" type="button" icon="ui-icon-print"
+	<p:commandButton value="Print" type="button" icon="fa fa-print"
 		style="display:block;margin-bottom: 20px">
 		<p:printer target=":panel1" />
 	</p:commandButton>

@@ -268,7 +268,7 @@ public class ManagerPedidos {
 		if(pedidoCab.getEstadoPedido().getIdEstadoPedido().equals("AN"))
 			throw new Exception("No puede despachar un pedido anulado.");
 		//creamos la factura automaticamente:
-		managerFacturacion.crearFacturaConPedido(pedidoCab);
+		managerFacturacion.crearFacturaConPedido(codigoUsuario,pedidoCab);
 		//si no existen excepciones, actualizamos el estado del pedido:
 		EstadoPedido estado=findEstadoPedidoById("OK");
 		pedidoCab.setEstadoPedido(estado);

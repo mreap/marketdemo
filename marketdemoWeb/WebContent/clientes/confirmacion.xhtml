@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Confirmacion</title>
 </h:head>
-<body style="font-size: 70%">
+<body>
 	<p:panel header="Datos del cliente:" style="width:800px">
 		<h:panelGrid columns="2">
 			<h:outputText value="Cédula:" />
@@ -43,9 +43,9 @@
 			</p:dataTable>
 		</p:panel>
 		<h:panelGrid style="text-align:center" columns="2">
-			<p:commandButton icon="ui-icon-circle-arrow-w" action="pedido"
+			<p:commandButton icon="fa fa-shopping-cart" action="pedido"
 				value="Regresar al carrito de compras"></p:commandButton>
-			<p:commandButton icon="ui-icon-circle-arrow-e" action="#{beanPedidos.actionGuardarPedido()}"
+			<p:commandButton icon="fa fa-save" action="#{beanPedidos.actionGuardarPedido()}"
 				value="Confirmar el pedido"></p:commandButton>
 		</h:panelGrid>
 	</h:form>

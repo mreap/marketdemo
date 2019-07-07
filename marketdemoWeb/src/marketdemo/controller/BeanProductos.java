@@ -141,5 +141,4 @@ public class BeanProductos  implements Serializable {
 		this.tieneImpuesto = tieneImpuesto;
 	}
 	
-	
 }

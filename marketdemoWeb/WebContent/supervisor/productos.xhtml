@@ -8,13 +8,30 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Productos</title>
 </h:head>
-<body style="font-size:70%">
-	<h:form id="form1">
-		<h:commandLink action="index" value="Ir al inicio..." />
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Inicio" action="index" icon="fa fa-home"></p:menuitem>
+			<p:menuitem value="Pedidos" action="pedidos" icon="fa fa-shopping-cart"></p:menuitem>
+			<p:menuitem value="Facturas" action="facturas" icon="fa fa-bars"></p:menuitem>
+			<p:menuitem value="Parámetros" action="parametros" icon="fa fa-cog"></p:menuitem>
+			<f:facet name="options">
+				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}"
+					icon="fa fa-sign-out" />
+			</f:facet>
+		</p:menubar>
 	</h:form>
-	<p:panel header="Ingreso de nuevo producto">
-		<h:form>
-			<p:panelGrid columns="2" id="panelGrid1">
+	<br />
+	<p:messages>
+		<p:autoUpdate />
+	</p:messages>
+	<p:panel header="Ingreso de nuevo producto" toggleable="true"
+		collapsed="true">
+		<h:form id="form1">
+			<p:panelGrid columns="2">
 				<h:outputText value="ID:" />
 				<p:inputText value="#{beanProductos.codigoProducto}" required="true"
 					requiredMessage="Debe ingresar un código." />
@@ -23,50 +40,48 @@
 				<h:outputText value="DESCRIPCION:" />
 				<p:inputText value="#{beanProductos.descripcion}"></p:inputText>
 				<h:outputText value="PRECIO:" />
-				<p:spinner value="#{beanProductos.precioUnitario}" stepFactor="0.01" min="0"/>
+				<p:spinner value="#{beanProductos.precioUnitario}" stepFactor="0.01"
+					min="0" size="10" />
 				<h:outputText value="EXISTENCIA:" />
-				<p:spinner value="#{beanProductos.existencia}" min="0" />
+				<p:spinner value="#{beanProductos.existencia}" min="0" size="10" />
 				<h:outputText value="TIENE IMPUESTO:" />
 				<p:selectOneMenu value="#{beanProductos.tieneImpuesto}">
-					<f:selectItem itemLabel="SI" itemValue="S"/>
-					<f:selectItem itemLabel="NO" itemValue="N"/>
+					<f:selectItem itemLabel="SI" itemValue="S" />
+					<f:selectItem itemLabel="NO" itemValue="N" />
 				</p:selectOneMenu>
-				
-				<p:messages></p:messages>
 			</p:panelGrid>
 
-			<p:commandButton value="Insertar"
+			<p:commandButton value="Insertar" icon="fa fa-save"
 				action="#{beanProductos.actionInsertarProducto()}"
-				update=":form2,panelGrid1"></p:commandButton>
+				update="@form,:form2"></p:commandButton>
 		</h:form>
 	</p:panel>
+	<br />
 	<h:form id="form2">
-	<p:messages></p:messages>
-	<p:dataTable border="1" value="#{beanProductos.listaProductos}" var="p"
-		paginator="true" rows="6" id="tabla1">
-		<p:column headerText="CODIGO">
-			<h:outputText value="#{p.codigoProducto}"></h:outputText>
-		</p:column>
-		<p:column headerText="NOMBRE">
-			<h:outputText value="#{p.nombre}"></h:outputText>
-		</p:column>
-		<p:column headerText="DESCRIPCION">
-			<h:outputText value="#{p.descripcion}"></h:outputText>
-		</p:column>
-		<p:column headerText="PRECIO">
-			<h:outputText value="#{p.precioUnitario}"></h:outputText>
-		</p:column>
-		<p:column headerText="ELIMINAR">
-			<p:commandButton icon="ui-icon-cancel"
-				action="#{beanProductos.actionEliminarProducto(p)}"
-				update=":form2"></p:commandButton>
-		</p:column>
-		<p:column headerText="ACTUALIZAR">
-			<p:commandButton icon="ui-icon-comment"
-				action="#{beanProductos.actionCargarProducto(p)}"
-				update=":form2"></p:commandButton>
-		</p:column>
-	</p:dataTable>
+		<p:dataTable border="1" value="#{beanProductos.listaProductos}"
+			var="p" paginator="true" rows="6" id="tabla1" reflow="true">
+			<p:column headerText="CODIGO" style="width:80px">
+				<h:outputText value="#{p.codigoProducto}"></h:outputText>
+			</p:column>
+			<p:column headerText="NOMBRE">
+				<h:outputText value="#{p.nombre}"></h:outputText>
+			</p:column>
+			<p:column headerText="DESCRIPCION">
+				<h:outputText value="#{p.descripcion}"></h:outputText>
+			</p:column>
+			<p:column headerText="PRECIO" style="width:70px">
+				<h:outputText value="#{p.precioUnitario}"></h:outputText>
+			</p:column>
+			<p:column headerText="EXISTENCIA" style="width:70px">
+				<h:outputText value="#{p.existencia}"></h:outputText>
+			</p:column>
+			<p:column headerText="OPCIONES">
+				<p:commandButton icon="fa fa-close"
+					action="#{beanProductos.actionEliminarProducto(p)}" update="@form"></p:commandButton>
+				<p:commandButton icon="fa fa-edit"
+					action="#{beanProductos.actionCargarProducto(p)}" update="@form"></p:commandButton>
+			</p:column>
+		</p:dataTable>
 	</h:form>
 </body>
 </html>

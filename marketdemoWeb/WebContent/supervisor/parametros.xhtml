@@ -8,11 +8,26 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Parametros</title>
 </h:head>
-<body style="font-size:70%">
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Inicio" action="index" icon="fa fa-home"></p:menuitem>
+			<p:menuitem value="Pedidos" action="pedidos" icon="fa fa-shopping-cart"></p:menuitem>
+			<p:menuitem value="Productos" action="productos" icon="fa fa-laptop"></p:menuitem>
+			<p:menuitem value="Facturas" action="facturas" icon="fa fa-bars"></p:menuitem>
+			<f:facet name="options">
+				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}"
+					icon="fa fa-sign-out" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<br />
 	<h:form id="form1">
-		<h:commandLink action="index" value="Ir al inicio..." />
-		<p:dataTable value="#{beanParametro.listaParametros}"
-			var="p" id="tablaParametros">
+		<p:dataTable value="#{beanParametro.listaParametros}" var="p"
+			id="tablaParametros">
 			<f:facet name="header">
 				<h:outputText value="Parametros del sistema" />
 			</f:facet>

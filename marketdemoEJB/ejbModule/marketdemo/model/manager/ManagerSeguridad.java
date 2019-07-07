@@ -53,5 +53,10 @@ public class ManagerSeguridad {
 			loginDTO.setRutaAcceso("/supervisor/index.xhtml");
 		return loginDTO;
 	}
+	
+	public Usuario findUsuarioById(String codigoUsuario) throws Exception {
+		Usuario usuario=(Usuario)managerDAO.findById(Usuario.class, codigoUsuario);
+		return usuario;
+	}
 
 }

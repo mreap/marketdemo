@@ -6,96 +6,22 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Busqueda de solicitudes</title>
+	<title>Opciones supervisor</title>
 </h:head>
-<body style="font-size: 70%">
+<body>
 	<h:form>
 		<p:menubar>
-			<p:menuitem value="Productos" action="productos"></p:menuitem>
-			<p:menuitem value="Facturas" action="facturas"></p:menuitem>
-			<p:menuitem value="Parámetros" action="parametros"></p:menuitem>
+			<p:menuitem value="Pedidos" action="pedidos" icon="fa fa-shopping-cart"></p:menuitem>
+			<p:menuitem value="Productos" action="productos" icon="fa fa-laptop"></p:menuitem>
+			<p:menuitem value="Facturas" action="facturas" icon="fa fa-bars"></p:menuitem>
+			<p:menuitem value="Parámetros" action="parametros" icon="fa fa-cog"></p:menuitem>
 			<f:facet name="options">
 				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}" icon="fa fa-sign-out"/>
 			</f:facet>
 		</p:menubar>
 	</h:form>
 	<br />
-	<h:form id="form1">
-		<p:panelGrid columns="3">
-			<f:facet name="header">
-				<h:outputText value="BUSQUEDA" />
-			</f:facet>
-			<h:outputText value="Fecha inicio" />
-			<h:outputText value="Fecha fin" />
-			<h:outputText value="" />
-			<p:calendar value="#{beanSupervisor.fechaInicio}" />
-			<p:calendar value="#{beanSupervisor.fechaFinal}" />
-			<p:commandButton icon="ui-icon-search" value="Buscar"
-				update=":form2:panel1" action="#{beanSupervisor.actionBuscar()}" />
-		</p:panelGrid>
-	</h:form>
-	<br />
 	<p:messages id="mensajes"></p:messages>
-	<h:form id="form2">
-		<p:panel header="Resultado de la búsqueda:" id="panel1">
-			<p:dataTable value="#{beanSupervisor.listaPedidoCab}" var="pc">
-				<p:column headerText="NUM">
-					<h:outputText value="#{pc.numeroPedido}" />
-				</p:column>
-				<p:column headerText="FECHA DE PEDIDO">
-					<h:outputText value="#{pc.fechaPedido}" />
-				</p:column>
-				<p:column headerText="SUBTOTAL">
-					<h:outputText value="#{pc.subtotal}">
-						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-					</h:outputText>
-				</p:column>
-				<p:column headerText="ESTADO">
-					<h:outputText value="#{pc.estadoPedido.descripcionEstado}" />
-				</p:column>
-				<p:column headerText="VER">
-					<p:commandButton action="#{beanSupervisor.actionCargarPedido(pc)}"
-						icon="ui-icon-search" update=":form2:dlg1"
-						oncomplete="PF('dialogo1').show()" />
-				</p:column>
-				<p:column headerText="DESPACHAR">
-					<p:commandButton update=":form2:panel1,:mensajes"
-						action="#{beanSupervisor.actionDespacharPedido(pc)}"
-						icon="ui-icon-check" />
-				</p:column>
-			</p:dataTable>
-		</p:panel>
-		<p:dialog header="INFORMACION" widgetVar="dialogo1" modal="true"
-			id="dlg1">
-			<p:panel id="detallePedido" header="Información del pedido"
-				style="width:500px">
-				<h:panelGrid columns="2">
-					<h:outputText value="Pedido:" />
-					<h:outputText value="#{beanSupervisor.pedidoCabTmp.numeroPedido}" />
-					<h:outputText value="Fecha pedido:" />
-					<h:outputText value="#{beanSupervisor.pedidoCabTmp.fechaPedido}" />
-					<h:outputText value="Cliente:" />
-					<h:outputText
-						value="#{beanSupervisor.pedidoCabTmp.cliente.cedulaCliente}" />
-					<h:outputText value="Subtotal:" />
-					<h:outputText value="#{beanSupervisor.pedidoCabTmp.subtotal}">
-						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-					</h:outputText>
-				</h:panelGrid>
-				<p:dataTable value="#{beanSupervisor.pedidoCabTmp.pedidoDets}"
-					var="d">
-					<p:column headerText="Producto">
-						<h:outputText value="#{d.producto.descripcion}" />
-					</p:column>
-					<p:column headerText="Cantidad" style="width:30px">
-						<h:outputText value="#{d.cantidad}" />
-					</p:column>
-					<p:column headerText="Precio" style="width:50px">
-						<h:outputText value="#{d.precioUnitarioVenta}" />
-					</p:column>
-				</p:dataTable>
-			</p:panel>
-		</p:dialog>
-	</h:form>
+	
 </body>
 </html>

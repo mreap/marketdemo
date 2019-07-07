@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Facturacion</title>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<f:facet name="options">
+				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}"
+					icon="fa fa-sign-out" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<br />
+	<p:panel id="panel1">
+		<h:form id="form1">
+			<p:panelGrid columns="2">
+				<p:commandButton action="#{beanFactura.crearNuevaFactura()}"
+					value="Crear nueva factura" update="form1 :form2"
+					icon="fa fa-file-o" />
+				<h:panelGroup>
+					<p:commandButton value="Guardar factura" icon="fa fa-save"
+						action="#{beanFactura.guardarFactura()}" update="@form" />
+					<p:commandButton value="Imprimir"
+						rendered="#{beanFactura.facturaCabTmpGuardada}" type="button"
+						icon="fa fa-print">
+						<p:printer target=":panel1" />
+					</p:commandButton>
+				</h:panelGroup>
+				<h:outputText value="Nro. de factura:" style="font-weight: bold" />
+				<h:outputText value="#{beanFactura.facturaCabTmp.numeroFactura}" />
+				<h:outputText value="Fecha de la factura:" style="font-weight: bold" />
+				<h:outputText value="#{beanFactura.facturaCabTmp.fechaEmision}">
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+				</h:outputText>
+				<h:outputText value="Seleccione el cliente:"
+					style="font-weight: bold" />
+				<h:panelGroup>
+					<p:selectOneMenu value="#{beanFactura.cedulaCliente}" filter="true"
+						filterMatchMode="contains">
+						<f:selectItem itemLabel="Seleccione..." itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{beanFactura.listaClientesSI}" />
+						<p:ajax update="cedulaCliente"
+							listener="#{beanFactura.asignarCliente()}"></p:ajax>
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:outputText value="Codigo del cliente:" style="font-weight: bold" />
+				<h:outputText id="cedulaCliente"
+					value="#{beanFactura.cedulaCliente}" />
+			</p:panelGrid>
+		</h:form>
+		<h:form id="form2">
+			<p:panel header="Detalle de productos">
+				<p:panelGrid columns="5" border="1">
+					<h:outputText value="Producto:" />
+					<p:selectOneMenu value="#{beanFactura.codigoProducto}">
+						<f:selectItem itemLabel="Seleccione un producto..." itemValue="-1"
+							noSelectionOption="true" />
+						<f:selectItems value="#{beanFactura.listaProductosSI}" />
+						<p:ajax update=":form1"
+							listener="#{beanFactura.verificarExistencia()}"></p:ajax>
+					</p:selectOneMenu>
+					<h:outputText value="Cantidad:" />
+					<p:spinner value="#{beanFactura.cantidadProducto}" min="1" />
+					<p:commandButton value="adicionar"
+						action="#{beanFactura.insertarDetalle}" update="form2"
+						icon="fa fa-plus" />
+				</p:panelGrid>
+				<p:dataTable value="#{beanFactura.facturaCabTmp.facturaDets}"
+					var="d" id="tablaFacturaDets">
+					<f:facet name="header">
+						<h:outputText value="Detalle de productos:" />
+					</f:facet>
+					<p:column style="width:60px" headerText="CODIGO">
+						<h:outputText value="#{d.producto.codigoProducto}" />
+					</p:column>
+					<p:column headerText="PRODUCTO">
+						<h:outputText value="#{d.producto.nombre}" />
+					</p:column>
+					<p:column headerText="DESCRIPCION">
+						<h:outputText value="#{d.producto.descripcion}" />
+					</p:column>
+					<p:column style="width:100px" headerText="P/U">
+						<h:outputText value="#{d.precioUnitarioVenta}" />
+					</p:column>
+					<p:column style="width:40px" headerText="CANT">
+						<h:outputText value="#{d.cantidad}" />
+					</p:column>
+					<p:column style="width:160px;text-align:right"
+						headerText="SUBTOTAL">
+						<h:outputText value="#{d.precioUnitarioVenta * d.cantidad}"
+							style="text-align:right" />
+						<f:facet name="footer">
+							<h:panelGrid columns="2"
+								style="font-weight: bold; text-align:right">
+								<h:outputText value="SUMA:" />
+								<h:outputText value="#{beanFactura.facturaCabTmp.subtotal}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+										currencySymbol="$" />
+								</h:outputText>
+								<h:outputText value="IVA:" />
+								<h:outputText value="#{beanFactura.facturaCabTmp.valorIva}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+										currencySymbol="$" />
+								</h:outputText>
+								<h:outputText value="TOTAL:" />
+								<h:outputText value="#{beanFactura.facturaCabTmp.total}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+										currencySymbol="$" />
+								</h:outputText>
+							</h:panelGrid>
+						</f:facet>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</p:panel>
+</body>
+</html>

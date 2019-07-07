@@ -36,6 +36,7 @@ public class BeanLogin implements Serializable {
 			loginDTO=managerSeguridad.accederSistema(codigoUsuario, clave);
 			//verificamos el acceso del usuario:
 			tipoUsuario=loginDTO.getTipoUsuario();
+			//redireccion dependiendo del tipo de usuario:
 			return loginDTO.getRutaAcceso()+"?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,8 +50,9 @@ public class BeanLogin implements Serializable {
 	 * @return
 	 */
 	public String salirSistema(){
+		System.out.println("salirSistema");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "/login.xhtml?faces-redirect=true";
+		return "/index.html?faces-redirect=true";
 	}
 
 	public String getCodigoUsuario() {
