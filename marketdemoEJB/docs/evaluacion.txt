@@ -1,0 +1,5 @@
+Implementar los siguientes puntos:
+- Crear un nuevo perfil de usuario denominado "auditor". Este tipo de usuario puede acceder
+  al sistema y consultar los datos de la tabla "bitacora". 3 puntos.
+- Adicionar la funcionalidad necesaria al usuario "supervisor" para que pueda realizar las
+  operaciones CRUD en la tabla "parametro". 7 puntos.
