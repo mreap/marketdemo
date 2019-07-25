@@ -19,6 +19,7 @@
 			<p:menuitem value="Productos" action="productos" icon="fa fa-laptop"></p:menuitem>
 			<p:menuitem value="Facturas" action="facturas" icon="fa fa-bars"></p:menuitem>
 			<p:menuitem value="Parámetros" action="parametros" icon="fa fa-cog"></p:menuitem>
+			<p:menuitem value="Reporte clientes" action="#{beanSupervisor.actionReporte()}" ajax="false" />
 			<f:facet name="options">
 				<p:commandButton value="Salir" action="#{beanLogin.salirSistema()}" icon="fa fa-sign-out"/>
 			</f:facet>
