@@ -83,12 +83,13 @@ public class BeanSupervisor  implements Serializable {
 		 * parametros.put("p_titulo_principal",p_titulo_principal);
 		 * parametros.put("p_titulo",p_titulo);
 		 */
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
 		String ruta = servletContext.getRealPath("supervisor/clientes.jasper");
 		System.out.println(ruta);
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename=blogs.pdf");
+		response.addHeader("Content-disposition", "attachment;filename=clientes.pdf");
 		response.setContentType("application/pdf");
 		try {
 			Class.forName("org.postgresql.Driver");
