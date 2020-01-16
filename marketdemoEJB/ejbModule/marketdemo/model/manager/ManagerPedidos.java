@@ -189,6 +189,8 @@ public class ManagerPedidos {
 		Producto prod;
 		PedidoDet pedidoDet;
 
+		if(pedidoCabTmp.getCliente()==null)
+			throw new Exception("El cliente no está asignado aún.");
 		// si no esta creado el pedido, lo creamos automaticamente:
 		if (pedidoCabTmp == null)
 			pedidoCabTmp = crearPedidoTmp();

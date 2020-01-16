@@ -7,36 +7,40 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Registro clientes</title>
+	<h:outputStylesheet library="css" name="marketdemo.css" />
 </h:head>
 <body>
 	<h:form>
-		<p:panel header="Registro de clientes" id="panel1">
-			<h:panelGrid columns="3">
-				<h:outputText value="Ingrese su cedula" />
-				<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
-					maxlength="10" required="true"
-					requiredMessage="Debe ingresar la cedula." />
-				<p:message for="cedula" />
-				<h:outputText value="Nombres" />
-				<p:inputText id="nombres" value="#{beanPedidos.nombres}"
-					required="true" requiredMessage="Debe ingresar sus nombres." />
-				<p:message for="nombres" />
-				<h:outputText value="Apellidos" />
-				<p:inputText id="apellidos" value="#{beanPedidos.apellidos}"
-					required="true" requiredMessage="Debe ingresar sus apellidos." />
-				<p:message for="apellidos" />
-				<h:outputText value="Direccion" />
-				<p:inputText value="#{beanPedidos.direccion}" />
-				<h:outputText value="" />
-				<h:outputText value="Clave" />
-				<p:password id="clave" value="#{beanPedidos.clave}" required="true"
-					requiredMessage="Debe ingresar su contraseña." />
-				<p:message for="clave" />
-			</h:panelGrid>
-			<p:commandButton value="Registrar"
-				action="#{beanPedidos.actionInsertarCliente()}" update="panel1" />
-			<p:messages />
-		</p:panel>
+		<div align="center">
+			<p:panel header="Registro de clientes - complete la siguiente información:" id="panel1"
+				style="width:500px">
+				<h:panelGrid columns="3">
+					<h:outputText value="Ingrese su cedula" />
+					<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
+						maxlength="10" required="true"
+						requiredMessage="Debe ingresar la cedula." />
+					<p:message for="cedula" />
+					<h:outputText value="Nombres" />
+					<p:inputText id="nombres" value="#{beanPedidos.nombres}"
+						required="true" requiredMessage="Debe ingresar sus nombres." />
+					<p:message for="nombres" />
+					<h:outputText value="Apellidos" />
+					<p:inputText id="apellidos" value="#{beanPedidos.apellidos}"
+						required="true" requiredMessage="Debe ingresar sus apellidos." />
+					<p:message for="apellidos" />
+					<h:outputText value="Direccion" />
+					<p:inputText value="#{beanPedidos.direccion}" />
+					<h:outputText value="" />
+					<h:outputText value="Clave" />
+					<p:password id="clave" value="#{beanPedidos.clave}" required="true"
+						requiredMessage="Debe ingresar su contraseña." />
+					<p:message for="clave" />
+				</h:panelGrid>
+				<p:commandButton value="Registrar"
+					action="#{beanPedidos.actionInsertarCliente()}" update="panel1" />
+				<p:messages />
+			</p:panel>
+		</div>
 	</h:form>
 </body>
 </html>

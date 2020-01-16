@@ -7,22 +7,29 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Comprobacion clientes</title>
+	<h:outputStylesheet library="css" name="marketdemo.css" />
 </h:head>
 <body>
+	<h:outputText value="Marketdemo (c)" style="" />
 	<h:form>
-		<p:panel header="Comprobacion de usuarios" id="panel1">
-			<p:staticMessage severity="info" detail="Para poder comprar, por favor debe indicar sus credenciales."></p:staticMessage>
-			<h:panelGrid columns="3">
-				<h:outputText value="Ingrese su cedula" />
-				<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
-					maxlength="10" required="true"
-					requiredMessage="Debe ingresar la cedula." />
-				<p:message for="cedula" />
-				<p:commandButton action="#{beanPedidos.actionComprobarCedula()}"
-					value="Siguiente..." update="panel1" />
-				<p:messages />
-			</h:panelGrid>
-		</p:panel>
+		<div align="center">
+			<p:panel header="Comprobacion de usuarios" id="panel1"
+				style="width:500px">
+				<p:staticMessage severity="info"
+					detail="Para poder comprar, debe indicar sus credenciales."></p:staticMessage>
+				<p:messages>
+					<p:autoUpdate />
+				</p:messages>
+				<h:panelGrid columns="2">
+					<h:outputText value="Ingrese su cédula" />
+					<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
+						maxlength="10" required="true"
+						requiredMessage="Debe ingresar la cedula." />
+					<p:commandButton action="#{beanPedidos.actionComprobarCedula()}"
+						value="Continuar..." update="panel1" />
+				</h:panelGrid>
+			</p:panel>
+		</div>
 	</h:form>
 </body>
 </html>
