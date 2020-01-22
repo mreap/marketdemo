@@ -5,6 +5,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import marketdemo.model.dto.LoginDTO;
+import marketdemo.model.entities.Cliente;
 import marketdemo.model.entities.Usuario;
 
 /**
@@ -15,6 +16,10 @@ import marketdemo.model.entities.Usuario;
 public class ManagerSeguridad {
 	@EJB
 	private ManagerDAO managerDAO;
+	@EJB
+	private ManagerAuditoria managerAuditoria;
+	@EJB
+	private ManagerClientes managerClientes;
     /**
      * Default constructor. 
      */
@@ -26,8 +31,7 @@ public class ManagerSeguridad {
 	 * Metodo que le permite a un usuario acceder al sistema.
 	 * @param codigoUsuario Identificador del usuario.
 	 * @param clave Clave de acceso.
-	 * @return Retorna el tipo de usuario. Puede tener dos valores:
-	 * 			SP (supervisor) o VD (vendedor).
+	 * @return Objeto LoginDTO con informacion del usuario para la sesion.
 	 * @throws Exception Cuando no coincide la clave proporcionada o si ocurrio
 	 * un error con la consulta a la base de datos.
 	 */
@@ -51,6 +55,30 @@ public class ManagerSeguridad {
 			loginDTO.setRutaAcceso("/vendedor/index.xhtml");
 		else if(usuario.getTipoUsuario().equals("SP"))
 			loginDTO.setRutaAcceso("/supervisor/index.xhtml");
+		managerAuditoria.crearEvento(usuario.getCodigoUsuario(), ManagerSeguridad.class, "accederSistema", "Acceso al sistema para usuarios.");
+		return loginDTO;
+	}
+	/**
+	 * Metodo para que los clientes puedan acceder al sistema.
+	 * @param cedula Cedula del cliente.
+	 * @param clave Clave del cliente.
+	 * @return Objeto LoginDTO con informacion del cliente para el control de sesion.
+	 * @throws Exception 
+	 */
+	public LoginDTO accederSistemaClientes(String cedula,String clave) throws Exception {
+		Cliente cliente=managerClientes.findClienteById(cedula);
+		if(cliente==null)
+			return null;//el cliente no existe, debe registrarse.
+		if(!cliente.getClave().equals(clave))
+			throw new Exception("Error en cedula/clave");
+		
+		LoginDTO loginDTO=new LoginDTO();
+		loginDTO.setCodigoUsuario(cliente.getCedulaCliente());
+		loginDTO.setUsuario(cliente.getNombres()+" "+cliente.getApellidos());
+		loginDTO.setDireccion(cliente.getDireccion());
+		loginDTO.setTipoUsuario("CL");
+		loginDTO.setRutaAcceso("/clientes/pedido.xhtml");
+		managerAuditoria.crearEvento(loginDTO.getCodigoUsuario(), ManagerSeguridad.class, "accederSistemaClientes", "Acceso al sistema para clientes.");
 		return loginDTO;
 	}
 	

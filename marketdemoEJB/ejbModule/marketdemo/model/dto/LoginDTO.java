@@ -7,6 +7,7 @@ package marketdemo.model.dto;
 public class LoginDTO {
 	private String usuario;
 	private String codigoUsuario;
+	private String direccion;
 	private String tipoUsuario;
 	private String rutaAcceso;
 	
@@ -21,6 +22,12 @@ public class LoginDTO {
 	}
 	public void setCodigoUsuario(String codigoUsuario) {
 		this.codigoUsuario = codigoUsuario;
+	}
+	public String getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 	public String getTipoUsuario() {
 		return tipoUsuario;

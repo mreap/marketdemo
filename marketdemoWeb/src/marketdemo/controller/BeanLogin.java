@@ -2,6 +2,7 @@ package marketdemo.controller;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -15,17 +16,17 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Named
-@javax.enterprise.context.SessionScoped
+@SessionScoped
 public class BeanLogin implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String codigoUsuario;
 	private String clave;
-	private String tipoUsuario;
-	private boolean acceso;
 	@EJB
 	private ManagerSeguridad managerSeguridad;
 	@EJB
 	private ManagerAuditoria managerAuditoria;
+	
+	//objeto DTO para control de sesion:
 	private LoginDTO loginDTO;
 
 	@PostConstruct
@@ -37,13 +38,9 @@ public class BeanLogin implements Serializable {
 	 * @return
 	 */
 	public String accederSistema(){
-		acceso=false;
 		try {
 			loginDTO=managerSeguridad.accederSistema(codigoUsuario, clave);
-			//verificamos el acceso del usuario:
-			tipoUsuario=loginDTO.getTipoUsuario();
 			//redireccion dependiendo del tipo de usuario:
-			managerAuditoria.crearEvento(codigoUsuario, this.getClass(), "accederSistema", "Acceso a login");
 			return loginDTO.getRutaAcceso()+"?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,16 +101,11 @@ public class BeanLogin implements Serializable {
 		this.clave = clave;
 	}
 
-	public boolean isAcceso() {
-		return acceso;
+	public LoginDTO getLoginDTO() {
+		return loginDTO;
 	}
-
-	public String getTipoUsuario() {
-		return tipoUsuario;
-	}
-
-	public void setTipoUsuario(String tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
+	public void setLoginDTO(LoginDTO loginDTO) {
+		this.loginDTO = loginDTO;
 	}
 	
 }

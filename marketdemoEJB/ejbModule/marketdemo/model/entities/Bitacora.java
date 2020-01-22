@@ -34,10 +34,8 @@ public class Bitacora implements Serializable {
 	@Column(nullable=false, length=100)
 	private String metodo;
 
-	//bi-directional many-to-one association to Usuario
-	@ManyToOne
-	@JoinColumn(name="codigo_usuario", nullable=false)
-	private Usuario usuario;
+	@Column(name="codigo_usuario", nullable=false,length = 20)
+	private String codigoUsuario;
 
 	public Bitacora() {
 	}
@@ -82,12 +80,12 @@ public class Bitacora implements Serializable {
 		this.metodo = metodo;
 	}
 
-	public Usuario getUsuario() {
-		return this.usuario;
+	public String getCodigoUsuario() {
+		return codigoUsuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setCodigoUsuario(String codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 
 }

@@ -28,10 +28,6 @@ public class Usuario implements Serializable {
 	@Column(name="tipo_usuario", nullable=false, length=2)
 	private String tipoUsuario;
 
-	//bi-directional many-to-one association to Bitacora
-	@OneToMany(mappedBy="usuario")
-	private List<Bitacora> bitacoras;
-
 	//bi-directional many-to-one association to FacturaCab
 	@OneToMany(mappedBy="usuario")
 	private List<FacturaCab> facturaCabs;
@@ -69,28 +65,6 @@ public class Usuario implements Serializable {
 
 	public void setTipoUsuario(String tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
-	}
-
-	public List<Bitacora> getBitacoras() {
-		return this.bitacoras;
-	}
-
-	public void setBitacoras(List<Bitacora> bitacoras) {
-		this.bitacoras = bitacoras;
-	}
-
-	public Bitacora addBitacora(Bitacora bitacora) {
-		getBitacoras().add(bitacora);
-		bitacora.setUsuario(this);
-
-		return bitacora;
-	}
-
-	public Bitacora removeBitacora(Bitacora bitacora) {
-		getBitacoras().remove(bitacora);
-		bitacora.setUsuario(null);
-
-		return bitacora;
 	}
 
 	public List<FacturaCab> getFacturaCabs() {

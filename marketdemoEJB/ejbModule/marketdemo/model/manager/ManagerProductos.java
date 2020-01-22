@@ -35,7 +35,7 @@ public class ManagerProductos {
   	 */
   	@SuppressWarnings("unchecked")
   	public List<Producto> findAllProductos(){
-  		return managerDAO.findAll(Producto.class, "o.nombre");
+  		return managerDAO.findAll(Producto.class, "nombre");
   	}
   	
   	/**

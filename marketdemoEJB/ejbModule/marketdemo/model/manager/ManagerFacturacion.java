@@ -78,7 +78,7 @@ public class ManagerFacturacion {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<FacturaCab> findAllFacturaCab(){
-		List<FacturaCab> listado= managerDAO.findAll(FacturaCab.class, "o.fechaEmision desc,o.numeroFactura desc");
+		List<FacturaCab> listado= managerDAO.findAll(FacturaCab.class, "numeroFactura",false);
 		//recorremos las facturas cabecera para extraer los datos de los detalles:
 		for(FacturaCab fc:listado){
 			for(FacturaDet fd:fc.getFacturaDets()){

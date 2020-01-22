@@ -6,28 +6,28 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Comprobacion clientes</title>
+	<title>Clientes</title>
 	<h:outputStylesheet library="css" name="marketdemo.css" />
 </h:head>
 <body>
 	<h:outputText value="Marketdemo (c)" style="" />
 	<h:form>
 		<div align="center">
-			<p:panel header="Comprobacion de usuarios" id="panel1"
-				style="width:500px">
+			<p:panel header="Acceso para clientes" style="width:500px">
 				<p:staticMessage severity="info"
-					detail="Para poder comprar, debe indicar sus credenciales."></p:staticMessage>
+					detail="Si es un cliente nuevo, solo debe indicar su cédula."></p:staticMessage>
 				<p:messages>
 					<p:autoUpdate />
 				</p:messages>
 				<h:panelGrid columns="2">
-					<h:outputText value="Ingrese su cédula" />
-					<p:inputText id="cedula" value="#{beanPedidos.cedula}" size="10"
-						maxlength="10" required="true"
-						requiredMessage="Debe ingresar la cedula." />
-					<p:commandButton action="#{beanPedidos.actionComprobarCedula()}"
-						value="Continuar..." update="panel1" />
+					<h:outputText value="Cédula:" />
+					<p:inputText value="#{beanPedidos.cedula}" size="10" maxlength="10"
+						required="true" requiredMessage="Debe ingresar la cédula." />
+					<h:outputText value="Clave:" />
+					<p:password value="#{beanPedidos.clave}" />
 				</h:panelGrid>
+				<p:commandButton action="#{beanPedidos.actionComprobarCedula()}"
+					value="Continuar..." update="@form" />
 			</p:panel>
 		</div>
 	</h:form>

@@ -6,15 +6,17 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import marketdemo.model.entities.Cliente;
+import marketdemo.model.dto.LoginDTO;
 import marketdemo.model.entities.PedidoCab;
 import marketdemo.model.entities.Producto;
 import marketdemo.model.manager.ManagerClientes;
 import marketdemo.model.manager.ManagerFacturacion;
 import marketdemo.model.manager.ManagerPedidos;
 import marketdemo.model.manager.ManagerProductos;
+import marketdemo.model.manager.ManagerSeguridad;
 
 @Named
 @SessionScoped
@@ -35,8 +37,13 @@ public class BeanPedidos  implements Serializable {
 	private ManagerProductos managerProductos;
 	@EJB
 	private ManagerClientes managerClientes;
+	@EJB
+	private ManagerSeguridad managerSeguridad;
 	
 	private PedidoCab pedidoCabTmp;
+	
+	@Inject
+	private BeanLogin beanLogin;
 
 	public BeanPedidos() {
 
@@ -48,23 +55,21 @@ public class BeanPedidos  implements Serializable {
 
 	public String actionComprobarCedula() {
 		try {
-			Cliente c = managerClientes.findClienteById(cedula);
-			// verificamos la existencia del cliente:
-			if (c == null)
-				return "registro";// debe registrarse
-			
-			//caso contrario si ya existe el cliente, recuperamos la informacion
-			// para presentarla en la pagina de pedidos:
-			nombres = c.getNombres();
-			apellidos = c.getApellidos();
-			direccion = c.getDireccion();
+			LoginDTO loginDTO=managerSeguridad.accederSistemaClientes(cedula, clave);
+			if(loginDTO==null)
+				return "registro";//el usuario debe registrarse.
+			//Caso contrario es un usuario existente:
+			beanLogin.setLoginDTO(loginDTO);
+			clave="";//borramos la clave de la sesion.
+			//Recuperamos la informacion
+			//para presentarla en la pagina de pedidos:
+			nombres = loginDTO.getUsuario();
+			direccion = loginDTO.getDireccion();
 			//creamos el pedido temporal y asignamos el cliente automaticamente:
-			pedidoCabTmp=managerPedidos.crearPedidoTmp();
-			managerPedidos.asignarClientePedidoTmp(pedidoCabTmp, cedula);
-
-			return "pedido";
+			pedidoCabTmp=managerPedidos.crearPedidoTmp(cedula);
+			//llenamos datos en loginDTO:
+			return loginDTO.getRutaAcceso()+"?faces-redirect=true";
 		} catch (Exception e) {
-			// error no esperado:
 			e.printStackTrace();
 			JSFUtil.crearMensajeERROR(e.getMessage());
 			return "";
@@ -73,21 +78,24 @@ public class BeanPedidos  implements Serializable {
 
 	public String actionInsertarCliente() {
 		try {
-			managerClientes.insertarCliente(cedula, nombres, apellidos,
-					direccion, clave);
-			return "pedido";
+			managerClientes.insertarCliente(cedula, nombres, apellidos, direccion, clave);
+			//una vez registrado el cliente, hacemos automaticamente login:
+			LoginDTO loginDTO=managerSeguridad.accederSistemaClientes(cedula, clave);
+			beanLogin.setLoginDTO(loginDTO);
+			//creamos el pedido temporal y asignamos el cliente automaticamente:
+			pedidoCabTmp=managerPedidos.crearPedidoTmp(cedula);
+			return loginDTO.getRutaAcceso()+"?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			JSFUtil.crearMensajeERROR(e.getMessage());
 		}
 		return "";
-
 	}
 	
 	public void actionInsertarProducto(Producto p){
 		try {
 			if(pedidoCabTmp==null)
-				pedidoCabTmp=managerPedidos.crearPedidoTmp();
+				pedidoCabTmp=managerPedidos.crearPedidoTmp(cedula);
 			//agregamos un nuevo producto al carrito de compras:
 			managerPedidos.agregarDetallePedidoTmp(pedidoCabTmp, p.getCodigoProducto(), 1);
 		} catch (Exception e) {
@@ -106,15 +114,15 @@ public class BeanPedidos  implements Serializable {
 	}
 	public String actionCerrarPedido(){
 		pedidoCabTmp=null;
-		//creamos el pedido temporal y asignamos el cliente automaticamente:
-		pedidoCabTmp=managerPedidos.crearPedidoTmp();
 		try {
-			managerPedidos.asignarClientePedidoTmp(pedidoCabTmp, cedula);
+			//creamos el pedido temporal y asignamos el cliente automaticamente:
+			pedidoCabTmp=managerPedidos.crearPedidoTmp(cedula);
+			return beanLogin.getLoginDTO()+"?faces-redirect=true";
 		} catch (Exception e) {
-			e.printStackTrace();
 			JSFUtil.crearMensajeERROR(e.getMessage());
+			e.printStackTrace();
 		}
-		return "pedido";
+		return "";
 	}
 
 	public String getCedula() {

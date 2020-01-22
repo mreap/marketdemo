@@ -17,6 +17,7 @@ import marketdemo.model.entities.EstadoPedido;
 import marketdemo.model.entities.PedidoCab;
 import marketdemo.model.entities.PedidoDet;
 import marketdemo.model.entities.Producto;
+import marketdemo.model.util.ModelUtil;
 /**
  * Objeto que encapsula la logica basica de acceso a datos mediante JPA. Maneja
  * el patron de diseno singleton para administrar los componentes
@@ -53,7 +54,7 @@ public class ManagerPedidos {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PedidoCab> findAllPedidoCab() {
-		List<PedidoCab> listado=managerDAO.findAll(PedidoCab.class, "o.numeroPedido asc");
+		List<PedidoCab> listado=managerDAO.findAll(PedidoCab.class, "numeroPedido",true);
 		//recorremos los pedidos para extraer los datos de los detalles:
 		for(PedidoCab pc:listado){
 			for(PedidoDet pd:pc.getPedidoDets()){
@@ -116,43 +117,33 @@ public class ManagerPedidos {
 	 * Crea una nueva cabecera de pedido temporal, para que desde el programa
 	 * cliente pueda manipularla y llenarle con la informacion respectiva. Esta
 	 * informacion solo se mantiene en memoria.
+	 * @param cedulaCliente La cedula del cliente que va a realizar el pedido.
 	 * 
 	 * @return el nuevo pedido temporal.
+	 * @throws Exception 
 	 */
-	public PedidoCab crearPedidoTmp() {
-		PedidoCab pedidoCabTmp = new PedidoCab();
-		pedidoCabTmp.setFechaPedido(new Date());
-		pedidoCabTmp.setPedidoDets(new ArrayList<PedidoDet>());
-		return pedidoCabTmp;
-	}
-
-	/**
-	 * Asigna un cliente a un pedido temporal.
-	 * 
-	 * @param pedidoCabTmp Pedido temporal creado en memoria.
-	 * @param cedulaCliente codigo del cliente.
-	 * @throws Exception
-	 */
-	public void asignarClientePedidoTmp(PedidoCab pedidoCabTmp,
-			String cedulaCliente) throws Exception {
-
+	public PedidoCab crearPedidoTmp(String cedulaCliente) throws Exception {
+		PedidoCab pedidoCabTmp = null;
+		//Comprobacion del cliente:
 		Cliente cliente = null;
-		if (cedulaCliente == null || cedulaCliente.length() == 0)
+		if (ModelUtil.isEmpty(cedulaCliente))
 			throw new Exception("Error debe especificar la cedula del cliente.");
 		try {
 			// invocamos al ManagerClientes:
 			cliente = managerClientes.findClienteById(cedulaCliente);
 			if (cliente == null)
-				throw new Exception("Error al asignar cliente.");
-			// si el pedido no esta creado, se crea automaticamente:
-			if (pedidoCabTmp == null)
-				pedidoCabTmp = crearPedidoTmp();
-
+				throw new Exception("Error asignando cliente al nuevo pedido.");
+			//crear el nuevo pedido:
+			pedidoCabTmp = new PedidoCab();
+			pedidoCabTmp.setFechaPedido(new Date());
+			pedidoCabTmp.setPedidoDets(new ArrayList<PedidoDet>());
 			pedidoCabTmp.setCliente(cliente);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new Exception("Error al asignar cliente: " + e.getMessage());
+			throw new Exception("Error creando nuevo pedido: " + e.getMessage());
 		}
+		
+		return pedidoCabTmp;
 	}
 
 	/**
@@ -188,12 +179,12 @@ public class ManagerPedidos {
 			Integer codigoProducto, Integer cantidad) throws Exception {
 		Producto prod;
 		PedidoDet pedidoDet;
-
-		if(pedidoCabTmp.getCliente()==null)
-			throw new Exception("El cliente no está asignado aún.");
+		
 		// si no esta creado el pedido, lo creamos automaticamente:
 		if (pedidoCabTmp == null)
-			pedidoCabTmp = crearPedidoTmp();
+			throw new Exception("El cliente debe estar registrado.");
+		if(pedidoCabTmp.getCliente()==null)
+			throw new Exception("El cliente no está asignado aún.");
 		if (codigoProducto == null || codigoProducto.intValue() < 0)
 			throw new Exception(
 					"Error debe especificar el codigo del producto.");

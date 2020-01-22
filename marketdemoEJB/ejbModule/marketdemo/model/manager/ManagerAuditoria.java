@@ -44,11 +44,7 @@ public class ManagerAuditoria {
 		if(metodo==null||metodo.length()==0)
 			throw new Exception("Error auditoria: debe indicar el metodo que genera el evento.");
 
-		Usuario usuario=(Usuario)managerDAO.findById(Usuario.class, codigoUsuario);
-		if(usuario==null)
-			throw new Exception("Error auditoria: no existe el usuario indicado.");
-		
-		evento.setUsuario(usuario);
+		evento.setCodigoUsuario(codigoUsuario);
 		evento.setMetodo(clase.getSimpleName()+"/"+metodo);
 		evento.setDescripcion(descripcion);
 		evento.setFechaEvento(new Date());

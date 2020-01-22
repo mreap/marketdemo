@@ -55,28 +55,33 @@ public class ManagerDAO {
 	 *            <ul>
 	 *            		<li>Usuario.class</li>
 	 *            </ul>
-	 * @param orderBy
-	 *        Expresion que indica la propiedad de la entidad por la que se desea ordenar la consulta.
-	 * 		  Debe utilizar el alias "o" para nombrar a la(s) propiedad(es) por la que se va a ordenar. 
-	 * 		  por ejemplo: 
+	 * @param propiedadOrderBy
+	 *        Indica la propiedad de la entidad por la que se desea ordenar la consulta.
+	 * 		  Por ejemplo: 
 	 *        <ul>
-	 *        	<li>o.nombre</li>
-	 *          <li>o.codigo,o.nombre</li>
+	 *        	<li>nombre</li>
+	 *          <li>codigo</li>
 	 *        </ul>
 	 *        Puede aceptar null o una cadena vacia, en este caso no ordenara el resultado.
+	 * @param ascendente Si ordena el resultado en forma ascendente o no.
 	 * @return Listado resultante.
 	 */
 	@SuppressWarnings("rawtypes")
-	public List findAll(Class clase, String orderBy) {
-		mostrarLog(this.getClass(), "findAll", clase.getSimpleName()+" orderBy " + orderBy);
+	public List findAll(Class clase, String propiedadOrderBy,boolean ascendente) {
+		mostrarLog(this.getClass(), "findAll", clase.getSimpleName()+" orderBy o."+propiedadOrderBy+" asc "+ascendente);
 		Query q;
 		List listado;
 		String sentenciaJPQL;
-		if(ModelUtil.isEmpty(orderBy))
+		if(ModelUtil.isEmpty(propiedadOrderBy))
 			sentenciaJPQL = "SELECT o FROM " + clase.getSimpleName() + " o";
-		else
-			sentenciaJPQL = "SELECT o FROM " + clase.getSimpleName() + " o ORDER BY " + orderBy;
+		else {
+			if(ascendente)
+				sentenciaJPQL = "SELECT o FROM " + clase.getSimpleName() + " o ORDER BY :propiedadOrderBy asc";
+			else
+				sentenciaJPQL = "SELECT o FROM " + clase.getSimpleName() + " o ORDER BY :propiedadOrderBy desc";
+		}
 		q = em.createQuery(sentenciaJPQL);
+		q.setParameter("propiedadOrderBy", "o."+propiedadOrderBy);
 		listado = q.getResultList();
 		return listado;
 	}
@@ -92,7 +97,12 @@ public class ManagerDAO {
 	 */
 	@SuppressWarnings("rawtypes")
 	public List findAll(Class clase) {
-		return findAll(clase, null);
+		return findAll(clase, null,false);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List findAll(Class clase,String propiedadOrderBy) {
+		return findAll(clase,propiedadOrderBy,true);
 	}
 	
 	/**

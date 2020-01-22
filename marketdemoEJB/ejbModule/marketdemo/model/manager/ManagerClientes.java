@@ -30,7 +30,7 @@ public class ManagerClientes {
   	 */
   	@SuppressWarnings("unchecked")
   	public List<Cliente> findAllClientes(){
-  		return managerDAO.findAll(Cliente.class, "o.apellidos");
+  		return managerDAO.findAll(Cliente.class, "apellidos");
   	}
   	
   	/**
