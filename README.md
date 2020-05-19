@@ -7,11 +7,4 @@ Tomar en cuenta las siguientes consideraciones para importar el proyecto en Ecli
 - Crear un datasource en Wildfly 14 denominado marketdemoDS.
 - Crear un datasource en el IDE Eclipse denominado marketdemoDS.
 
----------------------
 
-```java
-  package hola;
-  public class Hola{
-    private String nombre;
-  }
-```
